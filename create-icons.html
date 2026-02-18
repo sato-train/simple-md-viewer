@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アイコン生成</title>
+</head>
+<body>
+  <h1>Markdown Viewer アイコン生成</h1>
+  <p>このHTMLファイルをブラウザで開き、右クリックで保存してください。</p>
+  
+  <canvas id="icon16" width="16" height="16" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+  <canvas id="icon48" width="48" height="48" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+  <canvas id="icon128" width="128" height="128" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+  
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // 背景
+      ctx.fillStyle = '#3498db';
+      ctx.fillRect(0, 0, size, size);
+      
+      // 白い枠
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = Math.max(1, size / 16);
+      ctx.strokeRect(size * 0.1, size * 0.1, size * 0.8, size * 0.8);
+      
+      // M文字（MarkdownのM）
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.5}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('M', size / 2, size / 2);
+    }
+    
+    drawIcon(document.getElementById('icon16'), 16);
+    drawIcon(document.getElementById('icon48'), 48);
+    drawIcon(document.getElementById('icon128'), 128);
+    
+    // ダウンロード機能
+    function downloadIcon(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    // ボタンを追加
+    document.body.innerHTML += '<br><button onclick="downloadIcon(\'icon16\', \'icon16.png\')">icon16.png をダウンロード</button>';
+    document.body.innerHTML += '<button onclick="downloadIcon(\'icon48\', \'icon48.png\')">icon48.png をダウンロード</button>';
+    document.body.innerHTML += '<button onclick="downloadIcon(\'icon128\', \'icon128.png\')">icon128.png をダウンロード</button>';
+  </script>
+</body>
+</html>

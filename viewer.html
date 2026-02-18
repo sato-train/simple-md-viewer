@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body class="viewer-page">
+  <div class="viewer-page-container">
+    <header class="viewer-page-header">
+      <span class="viewer-page-filename" id="filename"></span>
+      <div class="viewer-page-actions">
+        <button class="btn-secondary" id="backBtn">タブを閉じる</button>
+      </div>
+    </header>
+    <main class="viewer-page-content viewer-content" id="viewerContent"></main>
+  </div>
+  
+  <script src="marked.min.js"></script>
+  <script src="viewer.js"></script>
+</body>
+</html>
