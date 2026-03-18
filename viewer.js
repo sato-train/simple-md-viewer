@@ -17,13 +17,14 @@ if (!sessionId) {
       return;
     }
     
-    const { markdown, fileName } = data;
+    const { markdown, fileName, hideHeader } = data;
     
     try {
       const html = marked.parse(markdown);
       viewerContent.innerHTML = html;
       filename.textContent = fileName;
       document.title = `${fileName} - Markdown Viewer`;
+      document.body.classList.toggle('viewer-page-header-hidden', Boolean(hideHeader));
       
       // 表示後、ストレージをクリア（オプション：タブを閉じるまで保持する場合はコメントアウト）
       // chrome.storage.session.remove([`mdviewer_${sessionId}`]);

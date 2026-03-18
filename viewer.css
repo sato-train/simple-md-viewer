@@ -32,6 +32,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.viewer-page-header-hidden .viewer-page-header {
+  display: none;
+}
+
+.viewer-page-header-hidden .viewer-page-container {
+  box-shadow: none;
+}
+
+.viewer-page-header-hidden .viewer-page-content {
+  padding-top: 40px;
+}
+
 .viewer-page-filename {
   font-weight: 600;
   font-size: 16px;

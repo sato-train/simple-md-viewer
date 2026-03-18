@@ -7,13 +7,26 @@ const viewerContent = document.getElementById('viewerContent');
 const filename = document.getElementById('filename');
 const closeBtn = document.getElementById('closeBtn');
 const openInTabBtn = document.getElementById('openInTabBtn');
+const hideHeaderInTab = document.getElementById('hideHeaderInTab');
 const errorMessage = document.getElementById('errorMessage');
+
+const TAB_VIEWER_OPTIONS_KEY = 'mdviewer_tabViewerOptions';
 
 // エラーメッセージのタイムアウトIDを保持
 let errorTimeoutId = null;
 
 // 現在表示中のMarkdownデータ（タブで開く用）
 let currentFileData = null;
+
+loadTabViewerOptions();
+
+hideHeaderInTab.addEventListener('change', () => {
+  chrome.storage.local.set({
+    [TAB_VIEWER_OPTIONS_KEY]: {
+      hideHeader: hideHeaderInTab.checked
+    }
+  });
+});
 
 // ファイル選択ボタンのクリック
 selectBtn.addEventListener('click', () => {
@@ -106,8 +119,12 @@ openInTabBtn.addEventListener('click', () => {
   
   const sessionId = 'md_' + Date.now() + '_' + Math.random().toString(36).slice(2);
   const storageKey = `mdviewer_${sessionId}`;
+  const tabViewerData = {
+    ...currentFileData,
+    hideHeader: hideHeaderInTab.checked
+  };
   
-  chrome.storage.session.set({ [storageKey]: currentFileData }, () => {
+  chrome.storage.session.set({ [storageKey]: tabViewerData }, () => {
     const viewerUrl = chrome.runtime.getURL(`viewer.html?id=${sessionId}`);
     chrome.tabs.create({ url: viewerUrl });
   });
@@ -138,4 +155,17 @@ function hideError() {
   }
   
   errorMessage.style.display = 'none';
+}
+
+function loadTabViewerOptions() {
+  chrome.storage.local.get(
+    {
+      [TAB_VIEWER_OPTIONS_KEY]: {
+        hideHeader: false
+      }
+    },
+    (result) => {
+      hideHeaderInTab.checked = Boolean(result[TAB_VIEWER_OPTIONS_KEY]?.hideHeader);
+    }
+  );
 }
